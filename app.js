@@ -59,7 +59,64 @@ const keys = {
 const words = fs.readFileSync("/usr/share/dict/words", "utf-8").toLowerCase().split("\n");
 
 app.get("/", function(req, res){
-  res.redirect('/game');
+  res.redirect('/setup');
+});
+
+app.get("/setup", function(req, res){
+  res.render("hangman");
+});
+
+app.post("/setup", function(req, res){
+  let choice = req.body.button;
+  let lowerLimit = 0;
+  let upperLimit = 30;
+  switch (choice){
+    case "easy":
+      console.log("You chose easy mode!");
+      lowerLimit = 4;
+      upperLimit = 6;
+      break;
+    case "medium":
+      console.log("You chose medium mode!");
+      lowerLimit = 7;
+      upperLimit = 9;
+      break;
+    case "hard":
+      console.log("You chose hard mode!");
+      lowerLimit = 10;
+      upperLimit = 12;
+      break;
+    case "nightmare":
+      console.log("You chose nightmare mode!");
+      lowerLimit = 13;
+      upperLimit = 15;
+      break;
+    case "torture":
+      console.log("You chose torture mode!");
+      lowerLimit = 16;
+      upperLimit = 100;
+      break;
+    default:
+      console.log("Error, choosing random word...");
+      break;
+  }
+
+  let found = false;
+  do{
+    let word = words[Math.floor(Math.random()*words.length)];
+    if(word.length >= lowerLimit && word.length <= upperLimit){
+      req.session.word = word;
+      found = true;
+      word = word.toUpperCase();
+      console.log("Word chosen: ", word);
+      word = processWord(word);
+      req.session.word = word;
+      console.log("Word processed: ", req.session.word);
+      req.session.guesses = 8;
+    }
+  }while(!found);
+  console.log("Word sent: ", req.session.word);
+  res.redirect("/game");
 });
 
 app.get("/game", function(req,res){
@@ -115,7 +172,7 @@ app.get("/win", function(req, res){
 });
 
 app.get("/lose", function(req, res){
-  res.render("endgame", {win: false})
+  res.render("endgame", {win: false, word: req.session.word})
 });
 
 app.post("/endgame", function(req, res){
