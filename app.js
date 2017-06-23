@@ -59,6 +59,10 @@ const keys = {
 const words = fs.readFileSync("/usr/share/dict/words", "utf-8").toLowerCase().split("\n");
 
 app.get("/", function(req, res){
+  res.redirect('/game');
+});
+
+app.get("/game", function(req,res){
   // let keyboard = keys[0].concat(keys[1]).concat(keys[2]);
   if(!req.session.word){
     let word = words[Math.floor(Math.random()*words.length)];
@@ -67,10 +71,12 @@ app.get("/", function(req, res){
     word = processWord(word);
     req.session.word = word;
     console.log("Word processed: ", req.session.word);
+    req.session.guesses = 8;
   }
   res.render("index", {
     keys: keys,
-    word: req.session.word
+    word: req.session.word,
+    guesses: req.session.guesses
   });
 });
 
@@ -80,20 +86,37 @@ app.post("/keypressed", function(req, res){
   if(keyID < 10){
     //find the key in row 1
     keys.row1[keyID].guessed = true;
-    checkKey(keys.row1[keyID], req.session.word);
+    if(!isMatch(keys.row1[keyID], req.session.word)){
+      req.session.guesses--;
+    }
+    checkGame(req.session.word, req.session.guesses, res)();
   }
   else if(keyID < 19){
     //find th ekey in row 2
     keys.row2[keyID-10].guessed = true;
-    checkKey(keys.row2[keyID-10], req.session.word);
+    if(!isMatch(keys.row2[keyID-10], req.session.word)){
+      req.session.guesses--;
+    }
+    checkGame(req.session.word, req.session.guesses, res)();
   }
   else{
     //find the key in row 3
     keys.row3[keyID-19].guessed = true;
-    checkKey(keys.row3[keyID-19], req.session.word);
+    if(!isMatch(keys.row3[keyID-19], req.session.word)){
+      req.session.guesses--;
+    }
+    checkGame(req.session.word, req.session.guesses, res)();
   }
-  res.redirect("/");
+  // res.redirect("/game");
 })
+
+app.get("/win", function(req, res){
+  res.send("You won the game!");
+});
+
+app.get("/lose", function(req, res){
+  res.send("You lost the game!");
+});
 
 app.listen(3000, function(){
   console.log("App running on localhost:3000")
@@ -117,12 +140,36 @@ function processWord(word){
   return word;
 }
 
-function checkKey(key, word){
+function isMatch(key, word){
   let letter = key.keyvalue;
+  let match = false;
   for(let i = 0; i < word.length; i++){
     if(letter === word[i].value && !word[i].guessed){
       word[i].guessed = true;
       word[i].display = word[i].value;
+      match = true;
     }
   }
+  return match;
+}
+
+function checkGame(word, guesses, res){
+  if(wordGuessed(word)){
+    return (function(){ res.redirect("/win")});
+  }
+  else if(guesses === 0){
+    return (function(){ res.redirect("lose")});
+  }
+  else{
+    return (function(){ res.redirect("/game")});
+  }
+}
+
+function wordGuessed(word){
+  console.log("Word received: ", word);
+  let guessed = true;
+  for(let i = 0; i < word.length; i++){
+    guessed &= word[i].guessed;
+  }
+  return guessed;
 }
