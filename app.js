@@ -111,12 +111,33 @@ app.post("/keypressed", function(req, res){
 })
 
 app.get("/win", function(req, res){
-  res.send("You won the game!");
+  res.render("endgame", {win: true})
 });
 
 app.get("/lose", function(req, res){
-  res.send("You lost the game!");
+  res.render("endgame", {win: false})
 });
+
+app.post("/endgame", function(req, res){
+  console.log("Body received: ", req.body);
+  if(parseInt(req.body.playagain)){
+    console.log("Playing again...");
+    req.session.destroy(function(err){
+      console.error(err);
+    });
+    resetGame();
+    console.log("Destroyed session?", req.session);
+    res.redirect("/");
+  }
+  else {
+    res.redirect("/end")
+  }
+});
+
+app.get("/end", function(req, res){
+  res.send("Thanks for playing!")
+});
+
 
 app.listen(3000, function(){
   console.log("App running on localhost:3000")
@@ -172,4 +193,19 @@ function wordGuessed(word){
     guessed &= word[i].guessed;
   }
   return guessed;
+}
+
+function resetGame(){
+  //Reset keys on row1
+  for(let i = 0; i < keys.row1.length; i++){
+    keys.row1[i].guessed = false;
+  }
+  //Reset keys on row2
+  for(let i = 0; i < keys.row2.length; i++){
+    keys.row2[i].guessed = false;
+  }
+  //Reset keys on row3
+  for(let i = 0; i < keys.row3.length; i++){
+    keys.row3[i].guessed = false;
+  }
 }
