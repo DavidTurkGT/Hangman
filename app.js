@@ -59,7 +59,7 @@ const keys = {
 const words = fs.readFileSync("/usr/share/dict/words", "utf-8").toLowerCase().split("\n");
 
 app.get("/", function(req, res){
-  res.redirect('/game');
+  res.redirect('/setup');
 });
 
 app.get("/game", function(req,res){
