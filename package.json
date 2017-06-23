@@ -1,0 +1,32 @@
+{
+  "name": "hangmangame",
+  "version": "1.0.0",
+  "description": "Express app that plays hangman against the computer",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DavidTurkGT/Hangman.git"
+  },
+  "keywords": [
+    "express",
+    "hangman",
+    "game"
+  ],
+  "author": "David Turk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DavidTurkGT/Hangman/issues"
+  },
+  "homepage": "https://github.com/DavidTurkGT/Hangman#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "express-session": "^1.15.3",
+    "mustache": "^2.3.0",
+    "mustache-express": "^1.2.4",
+    "path": "^0.12.7"
+  }
+}
