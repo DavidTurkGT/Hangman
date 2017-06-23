@@ -168,7 +168,7 @@ app.post("/keypressed", function(req, res){
 })
 
 app.get("/win", function(req, res){
-  res.render("endgame", {win: true})
+  res.render("endgame", {win: true, word: req.session.word})
 });
 
 app.get("/lose", function(req, res){
@@ -177,7 +177,10 @@ app.get("/lose", function(req, res){
 
 app.post("/endgame", function(req, res){
   console.log("Body received: ", req.body);
-  if(parseInt(req.body.playagain)){
+  if(parseInt(req.body.winnerscircle)){
+    res.redirect('/winnerscircle');
+  }
+  else if(parseInt(req.body.playagain)){
     console.log("Playing again...");
     req.session.destroy(function(err){
       console.error(err);
@@ -195,6 +198,9 @@ app.get("/end", function(req, res){
   res.send("Thanks for playing!")
 });
 
+app.get("/winnerscircle", function(req, res){
+  res.send("Welcome to the winners circle!");
+});
 
 app.listen(3000, function(){
   console.log("App running on localhost:3000")
