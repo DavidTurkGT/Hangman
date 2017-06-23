@@ -2,6 +2,7 @@ const express = require('express');
 const mustacheExpress = require('mustache-express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const fs = require('fs');
 
 const app = express();
 
@@ -20,7 +21,7 @@ app.use(session({
   saveUninitialized: false
 }));
 
-let keys = {
+const keys = {
   row1: [
   {keyvalue: 'Q', guessed: false, id: 0},
   {keyvalue: 'W', guessed: false, id: 1},
@@ -55,9 +56,22 @@ let keys = {
   ]
 };
 
+const words = fs.readFileSync("/usr/share/dict/words", "utf-8").toLowerCase().split("\n");
+
 app.get("/", function(req, res){
   // let keyboard = keys[0].concat(keys[1]).concat(keys[2]);
-  res.render("index", {keys: keys});
+  if(!req.session.word){
+    let word = words[Math.floor(Math.random()*words.length)];
+    word = word.toUpperCase();
+    console.log("Word chosen: ", word);
+    word = processWord(word);
+    req.session.word = word;
+    console.log("Word processed: ", req.session.word);
+  }
+  res.render("index", {
+    keys: keys,
+    word: req.session.word
+  });
 });
 
 app.post("/keypressed", function(req, res){
@@ -66,14 +80,17 @@ app.post("/keypressed", function(req, res){
   if(keyID < 10){
     //find the key in row 1
     keys.row1[keyID].guessed = true;
+    checkKey(keys.row1[keyID], req.session.word);
   }
   else if(keyID < 19){
     //find th ekey in row 2
     keys.row2[keyID-10].guessed = true;
+    checkKey(keys.row2[keyID-10], req.session.word);
   }
   else{
     //find the key in row 3
     keys.row3[keyID-19].guessed = true;
+    checkKey(keys.row3[keyID-19], req.session.word);
   }
   res.redirect("/");
 })
@@ -81,3 +98,31 @@ app.post("/keypressed", function(req, res){
 app.listen(3000, function(){
   console.log("App running on localhost:3000")
 });
+
+function processWord(word){
+  let wordArr = word.split("");
+  // console.log("Word arr: ", wordArr);
+  word= [];
+  for(let i = 0; i < wordArr.length; i++){
+    // console.log("Processing letter: ",wordArr[i]);
+    let letter = {
+      value: wordArr[i],
+      guessed: false,
+      display: '_'
+    };
+    // console.log("Letter created: ", letter);
+    word.push(letter);
+    // console.log("New word array: ", word);
+  }
+  return word;
+}
+
+function checkKey(key, word){
+  let letter = key.keyvalue;
+  for(let i = 0; i < word.length; i++){
+    if(letter === word[i].value && !word[i].guessed){
+      word[i].guessed = true;
+      word[i].display = word[i].value;
+    }
+  }
+}
