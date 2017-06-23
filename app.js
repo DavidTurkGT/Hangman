@@ -62,6 +62,19 @@ app.get("/", function(req, res){
 
 app.post("/keypressed", function(req, res){
   console.log("body received: ", req.body);
+  let keyID = req.body.key;
+  if(keyID < 10){
+    //find the key in row 1
+    keys.row1[keyID].guessed = true;
+  }
+  else if(keyID < 19){
+    //find th ekey in row 2
+    keys.row2[keyID-10].guessed = true;
+  }
+  else{
+    //find the key in row 3
+    keys.row3[keyID-19].guessed = true;
+  }
   res.redirect("/");
 })
 

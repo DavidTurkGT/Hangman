@@ -1,0 +1,9 @@
+.keyboard{
+  width: 70vw;
+  margin: auto;
+}
+
+.key-row{
+  display: flex;
+  justify-content: center;
+}
