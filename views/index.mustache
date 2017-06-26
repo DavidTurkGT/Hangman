@@ -33,7 +33,7 @@
         <div class="key-row">
           {{#row1}}
           {{^guessed}}
-          <form action="/keypressed" method="post">
+          <form action="/game/keypressed" method="post">
             <button class= "not-guessed" type="submit" name="key" value={{id}} style="background-color">{{keyvalue}}</button>
           </form>
           {{/guessed}}
@@ -45,7 +45,7 @@
         <div class="key-row">
           {{#row2}}
           {{^guessed}}
-          <form action="/keypressed" method="post">
+          <form action="/game/keypressed" method="post">
             <button class= "not-guessed" type="submit" name="key" value={{id}}>{{keyvalue}}</button>
           </form>
           {{/guessed}}
@@ -57,7 +57,7 @@
         <div class="key-row">
           {{#row3}}
           {{^guessed}}
-          <form action="/keypressed" method="post">
+          <form action="/game/keypressed" method="post">
             <button class= "not-guessed" type="submit" name="key" value={{id}}>{{keyvalue}}</button>
           </form>
           {{/guessed}}
