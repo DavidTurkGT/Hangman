@@ -4,10 +4,24 @@
   padding: 0;
 }
 
+body{
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .container{
   width: 75vw;
   margin: auto;
   border: 2px dotted;
+  padding: 3rem;
+  background-color: rgba(255,255,255,0.7);
+
 }
 
 .word{
@@ -33,8 +47,13 @@
 }
 
 .keyboard button{
-  padding: 5px;
+  padding: 20px;
   border: none;
+  margin: 2px;
+  border-radius: 10px;
+  background-color: white;
+  font-size: 1.5em;
+  background-color: #eee;
 }
 
 .keyboard button:focus{
@@ -51,4 +70,19 @@
 .key-row{
   display: flex;
   justify-content: center;
+}
+
+h3 {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 1.5em;
+}
+
+.word h1{
+  font-family: 'Lobster', cursive;
+  font-size: 3em;
+}
+
+.guesses{
+  font-family: 'Lobster', cursive;
 }

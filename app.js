@@ -58,6 +58,14 @@ const keys = {
 
 const words = fs.readFileSync("/usr/share/dict/words", "utf-8").toLowerCase().split("\n");
 
+const css = {
+  easy: false,
+  medium: false,
+  hard: false,
+  nightmare: false,
+  torture: false
+}
+
 app.get("/", function(req, res){
   res.redirect('/setup');
 });
@@ -73,26 +81,32 @@ app.post("/setup", function(req, res){
   switch (choice){
     case "easy":
       console.log("You chose easy mode!");
+      // req.session.audio = [{url : "https://api.soundcloud.com/tracks/204375220/stream?client_id=2t9loNQH90kzJcsFCODdigxfp325aq4z"}];
+      css.easy = true;
       lowerLimit = 4;
       upperLimit = 6;
       break;
     case "medium":
       console.log("You chose medium mode!");
+      css.medium = true;
       lowerLimit = 7;
       upperLimit = 9;
       break;
     case "hard":
       console.log("You chose hard mode!");
+      css.hard = true;
       lowerLimit = 10;
       upperLimit = 12;
       break;
     case "nightmare":
       console.log("You chose nightmare mode!");
+      css.nightmare = true;
       lowerLimit = 13;
       upperLimit = 15;
       break;
     case "torture":
       console.log("You chose torture mode!");
+      css.torture = true;
       lowerLimit = 16;
       upperLimit = 100;
       break;
@@ -130,15 +144,21 @@ app.get("/game", function(req,res){
     console.log("Word processed: ", req.session.word);
     req.session.guesses = 8;
   }
+  if(!req.session.audio){
+    req.session.audio = false;
+  }
   res.render("index", {
     keys: keys,
     word: req.session.word,
-    guesses: req.session.guesses
+    guesses: req.session.guesses,
+    audio: req.session.audio,
+    css: css
   });
 });
 
 app.post("/keypressed", function(req, res){
   console.log("body received: ", req.body);
+  console.log("Current session: ", req.session);
   let keyID = req.body.key;
   if(keyID < 10){
     //find the key in row 1

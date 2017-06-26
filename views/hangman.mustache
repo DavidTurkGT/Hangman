@@ -2,11 +2,12 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Hangman!</title>
+    <title>Make a Choice</title>
+    <link rel="stylesheet" href="/css/hangman.css">
+    <link href="https://fonts.googleapis.com/css?family=Special+Elite" rel="stylesheet">
   </head>
   <body>
     <div class="container">
-      <h1>Welcome to hangman.  Please choose a difficuly</h1>
       <form action="/setup" method="post">
         <button type="submit" name="button" value="easy">Easy Mode</button>
         <button type="submit" name="button" value="medium">Medium Mode</button>
@@ -15,6 +16,12 @@
         <button type="submit" name="button" value="torture">Torture Mode</button>
       </form>
     </div>
+
+    <div class="audio" id=>
+    </div>
+
+    <script src="/javascript/hangman.js" charset="utf-8"></script>
+
 
     <script language="JavaScript"><!--
 javascript:window.history.forward(1);

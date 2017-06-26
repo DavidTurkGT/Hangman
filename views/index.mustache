@@ -2,8 +2,16 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Home</title>
+    <title>Hangman!</title>
     <link rel="stylesheet" href="/css/main.css">
+    {{#css}}
+      {{#easy}}<link rel="stylesheet" href="/css/easy.css">{{/easy}}
+      {{#medium}}<link rel="stylesheet" href="/css/medium.css">{{/medium}}
+      {{#hard}}<link rel="stylesheet" href="/css/hard.css">{{/hard}}
+      {{#nightmare}}<link rel="stylesheet" href="/css/nightmare.css">{{/nightmare}}
+      {{#torture}}<link rel="stylesheet" href="/css/torture.css">{{/torture}}
+    {{/css}}
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
   </head>
   <body>
     <div class="container">
@@ -26,11 +34,11 @@
           {{#row1}}
           {{^guessed}}
           <form action="/keypressed" method="post">
-            <button class= "not-guessed" type="submit" name="key" value={{id}}>{{keyvalue}}</button>
+            <button class= "not-guessed" type="submit" name="key" value={{id}} style="background-color">{{keyvalue}}</button>
           </form>
           {{/guessed}}
           {{#guessed}}
-          <button type="button" name="button" class="guessed">{{keyvalue}}</button>
+          <button type="button" name="button" class="guessed" style="background-color: #555; color= white;">{{keyvalue}}</button>
           {{/guessed}}
           {{/row1}}
         </div>
@@ -42,7 +50,7 @@
           </form>
           {{/guessed}}
           {{#guessed}}
-          <button type="button" name="button" class="guessed">{{keyvalue}}</button>
+          <button type="button" name="button" class="guessed" style="background-color: #555; color= white;">{{keyvalue}}</button>
           {{/guessed}}
           {{/row2}}
         </div>
@@ -54,7 +62,7 @@
           </form>
           {{/guessed}}
           {{#guessed}}
-          <button type="button" name="button" class="guessed">{{keyvalue}}</button>
+          <button type="button" name="button" class="guessed" style="background-color: #555; color= white;">{{keyvalue}}</button>
           {{/guessed}}
           {{/row3}}
         </div>
@@ -64,11 +72,5 @@
     </div>
 
     <!-- AUDIO TO PLAY -->
-    {{#audio}}
-      <audio autoplay>
-        <source src={{url}}>
-      </audio>
-    {{/audio}}
-
   </body>
 </html>

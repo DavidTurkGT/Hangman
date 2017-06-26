@@ -1,0 +1,68 @@
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  background-image: url("/img/game.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-color: black;
+}
+
+.container{
+  margin: auto;
+  width: 75vw;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.container h1{
+  flex: 1 100%;
+}
+
+form{
+  display: flex;
+    /* flex-direction: column; */
+  width: inherit;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 45vw;
+  position: relative;
+  top: 9rem;
+  left: 9rem;
+}
+
+button{
+  margin: 1rem;
+  padding: 20px;
+  border: none;
+  border-radius: 5px;
+  width: 50%;
+  font-size: 1.25em;
+  background: transparent;
+  flex: 0 1 20%;
+  font-family: 'Special Elite', cursive;
+}
+
+button:hover{
+  cursor: pointer;
+}
+
+button:focus{
+  outline: none;
+}

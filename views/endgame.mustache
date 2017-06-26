@@ -3,25 +3,31 @@
   <head>
     <meta charset="utf-8">
     <title>{{#win}}You won!{{/win}}{{^win}}You lost!{{/win}}</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/endgame.css">
+    {{#win}}<link rel="stylesheet" href="/css/win.css">{{/win}}
+    {{^win}}<link rel="stylesheet" href="/css/lose.css">{{/win}}
   </head>
   <body>
-    {{#win}}
-    <h1>You won!</h1>
-    <h3>The word was {{#word}}<span>{{value}}</span>{{/word}}</h3>
-    <h3>Would you like to put your name on the winner's board?</h3>
-    <form action="/endgame" method="post">
-      <button type="submit" name="winnerscircle" value = 1>Heck Yea!</button>
-    </form>
-    {{/win}}
-    {{^win}}
-    <h1>You lost!</h1>
-    <h3>The word was {{#word}}<span>{{value}}</span>{{/word}}</h3>
-    {{/win}}
+    <div class="container">
+      {{#win}}
+      <h1>You won!</h1>
+      <h3>The word was {{#word}}<span>{{value}}</span>{{/word}}</h3>
+      <h3>Would you like to put your name on the winner's board?</h3>
+      <form action="/endgame" method="post">
+        <button type="submit" name="winnerscircle" value = 1>Heck Yea!</button>
+      </form>
+      {{/win}}
+      {{^win}}
+      <h1>You lost!</h1>
+      <h3>The word was {{#word}}<span>{{value}}</span>{{/word}}</h3>
+      {{/win}}
 
-    <h3>Play again?</h3>
-    <form action="/endgame" method="post">
-      <button type="submit" name="playagain" value = 1>Yes</button>
-      <button type="submit" name="playagain" value = 0>No</button>
-    </form>
+      <h3>Play again?</h3>
+      <form action="/endgame" method="post">
+        <button type="submit" name="playagain" value = 1>Yes</button>
+        <button type="submit" name="playagain" value = 0>No</button>
+      </form>
+    </div>
   </body>
 </html>
