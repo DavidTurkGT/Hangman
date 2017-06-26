@@ -13,10 +13,6 @@
       {{#win}}
       <h1>You won!</h1>
       <h3>The word was {{#word}}<span>{{value}}</span>{{/word}}</h3>
-      <h3>Would you like to put your name on the winner's board?</h3>
-      <form action="/endgame" method="post">
-        <button type="submit" name="winnerscircle" value = 1>Heck Yea!</button>
-      </form>
       {{/win}}
       {{^win}}
       <h1>You lost!</h1>

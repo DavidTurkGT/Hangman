@@ -80,38 +80,32 @@ app.post("/setup", function(req, res){
   let upperLimit = 30;
   switch (choice){
     case "easy":
-      console.log("You chose easy mode!");
       // req.session.audio = [{url : "https://api.soundcloud.com/tracks/204375220/stream?client_id=2t9loNQH90kzJcsFCODdigxfp325aq4z"}];
       css.easy = true;
       lowerLimit = 4;
       upperLimit = 6;
       break;
     case "medium":
-      console.log("You chose medium mode!");
       css.medium = true;
       lowerLimit = 7;
       upperLimit = 9;
       break;
     case "hard":
-      console.log("You chose hard mode!");
       css.hard = true;
       lowerLimit = 10;
       upperLimit = 12;
       break;
     case "nightmare":
-      console.log("You chose nightmare mode!");
       css.nightmare = true;
       lowerLimit = 13;
       upperLimit = 15;
       break;
     case "torture":
-      console.log("You chose torture mode!");
       css.torture = true;
       lowerLimit = 16;
       upperLimit = 100;
       break;
     default:
-      console.log("Error, choosing random word...");
       break;
   }
 
@@ -122,14 +116,11 @@ app.post("/setup", function(req, res){
       req.session.word = word;
       found = true;
       word = word.toUpperCase();
-      console.log("Word chosen: ", word);
       word = processWord(word);
       req.session.word = word;
-      console.log("Word processed: ", req.session.word);
       req.session.guesses = 8;
     }
   }while(!found);
-  console.log("Word sent: ", req.session.word);
   res.redirect("/game");
 });
 
@@ -138,10 +129,8 @@ app.get("/game", function(req,res){
   if(!req.session.word){
     let word = words[Math.floor(Math.random()*words.length)];
     word = word.toUpperCase();
-    console.log("Word chosen: ", word);
     word = processWord(word);
     req.session.word = word;
-    console.log("Word processed: ", req.session.word);
     req.session.guesses = 8;
   }
   if(!req.session.audio){
@@ -157,8 +146,6 @@ app.get("/game", function(req,res){
 });
 
 app.post("/keypressed", function(req, res){
-  console.log("body received: ", req.body);
-  console.log("Current session: ", req.session);
   let keyID = req.body.key;
   if(keyID < 10){
     //find the key in row 1
@@ -196,17 +183,14 @@ app.get("/lose", function(req, res){
 });
 
 app.post("/endgame", function(req, res){
-  console.log("Body received: ", req.body);
   if(parseInt(req.body.winnerscircle)){
     res.redirect('/winnerscircle');
   }
   else if(parseInt(req.body.playagain)){
-    console.log("Playing again...");
     req.session.destroy(function(err){
       console.error(err);
     });
     resetGame();
-    console.log("Destroyed session?", req.session);
     res.redirect("/");
   }
   else {
@@ -223,23 +207,19 @@ app.get("/winnerscircle", function(req, res){
 });
 
 app.listen(3000, function(){
-  console.log("App running on localhost:3000")
+  console.log("App up and running on localhost:3000");
 });
 
 function processWord(word){
   let wordArr = word.split("");
-  // console.log("Word arr: ", wordArr);
   word= [];
   for(let i = 0; i < wordArr.length; i++){
-    // console.log("Processing letter: ",wordArr[i]);
     let letter = {
       value: wordArr[i],
       guessed: false,
       display: '_'
     };
-    // console.log("Letter created: ", letter);
     word.push(letter);
-    // console.log("New word array: ", word);
   }
   return word;
 }
@@ -270,7 +250,6 @@ function checkGame(word, guesses, res){
 }
 
 function wordGuessed(word){
-  console.log("Word received: ", word);
   let guessed = true;
   for(let i = 0; i < word.length; i++){
     guessed &= word[i].guessed;
